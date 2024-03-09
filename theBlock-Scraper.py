@@ -8,35 +8,28 @@ import pytz
 
 def scrape_latest_articles():
     try:
-        # URL of the website
         url = 'https://www.theblock.co/latest'
 
-        # Send a GET request to the URL
         response = requests.get(url)
 
-        # Check if the request was successful
         if response.status_code == 200:
-            # Parse the HTML content of the page
             soup = BeautifulSoup(response.content, 'html.parser')
 
             # Find all elements representing articles
             articles = soup.find_all('article', class_='articleCard')
 
-            # Extract the pubDate and ga-event-label from each article
             latest_articles = []
             for article in articles[:5]:
                 # Extract the pubDate
                 pub_date_elem = article.find('div', class_='pubDate')
                 pub_date_str = pub_date_elem.get_text(strip=True) if pub_date_elem else 'Unknown'
 
-                # Convert time from EST to UTC
                 est = pytz.timezone('US/Eastern')
                 utc = pytz.utc
                 est_time = datetime.strptime(pub_date_str, "%B %d, %Y, %I:%M%p EST")
                 est_time = est.localize(est_time)
                 utc_time = est_time.astimezone(utc)
 
-                # Extract the ga-event-label
                 title_elem = article.find('span', attrs={'ga-on': 'click', 'ga-event-category': 'Article',
                                                          'ga-event-action': 'Click'})
                 title = title_elem.text.strip() if title_elem else 'Unknown'
@@ -53,7 +46,6 @@ def scrape_latest_articles():
 
 
 def print_latest_articles_with_updates():
-    # Initially scrape and print the latest articles
     old_articles = scrape_latest_articles()
     print("Initial Articles:")
     for index, article in enumerate(old_articles, start=1):
@@ -61,7 +53,6 @@ def print_latest_articles_with_updates():
         title = article['title']
         print(f"{index}. Article-Title: {title}, Pub Date: {pub_date}")
 
-    # Start listening for updates
     while True:
         new_articles = scrape_latest_articles()
         if new_articles != old_articles:
@@ -75,5 +66,4 @@ def print_latest_articles_with_updates():
             print("\nNo new articles found. Continuing...")
         time.sleep(120)
 
-# Start printing the latest articles with updates
 print_latest_articles_with_updates()
