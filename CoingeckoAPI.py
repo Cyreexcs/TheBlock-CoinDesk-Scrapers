@@ -1,13 +1,10 @@
 import requests
 import time
 
-# Replace 'YOUR_API_KEY' with your actual API key
 API_KEY = 'YOUR_API_KEY'
 
-# Your custom coin ID
 your_coin_id = 'your-coin-id'
 
-# List of coins to fetch prices for
 coins = ['dogecoin', 'dogwifcoin', 'pepe', 'shiba-inu', 'mog-coin', 'meme', 'bonk', 'floki', 'myro', 'maga', 'bitcoin', 'ethereum', 'chainlink', 'binancecoin', 'solana','ripple','cardano','avalanche-2','tether','uniswap',
          'bitcoin-cash','near','aptos','optimism','bittensor','render-token','injective-protocol','kaspa','arbitrum','celestia','fetch-ai']
 
@@ -19,7 +16,7 @@ def fetch_prices(coins):
 
     try:
         response = requests.get(url)
-        response.raise_for_status()  # Raise an exception for 4XX and 5XX status codes
+        response.raise_for_status() 
         data = response.json()
         for coin_id, info in data.items():
             if 'usd' in info:
@@ -55,7 +52,6 @@ def print_prices():
 while True:
     fetch_prices(coins)
     print_prices()
-    # Introduce a delay of 65 seconds before making the next request
     time.sleep(65)
 
 
