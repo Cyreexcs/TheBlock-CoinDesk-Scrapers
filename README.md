@@ -13,7 +13,7 @@
 1. **Clone the repository to your local machine:**
 
    ```bash
-   git clone https://github.com/Cyreexcs/UniPath-Android_Studio-App.git
+   git clone https://github.com/Cyreexcs/TheBlock-CoinDesk-Scrapers.git
 
 Configuration
 You can modify the frequency of scraping (default: every 60 seconds) by adjusting the interval but note that the free Coingecko API only allows for 1 call every 60 seconds.
